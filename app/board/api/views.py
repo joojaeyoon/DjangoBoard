@@ -3,11 +3,13 @@ from rest_framework.response import Response
 
 from board.models import Article, Comment
 from board.api.serializers import ArticleSerializer, CommentSerializer
+from board.api.pagination import ArticlePagination
 
 
 class ArticleListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Article.objects.all()
+    queryset = Article.objects.order_by("-created_at")
     serializer_class = ArticleSerializer
+    pagination_class = ArticlePagination
 
 
 class CommentListAPIView(generics.ListAPIView):
