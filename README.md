@@ -1,5 +1,5 @@
 # DjangoBoard
 
-<img src="https://travis-ci.org/wow1548/DjangoBoard.svg?branch=master" alt="travis">
+[![Build Status](https://travis-ci.org/joojaeyoon/DjangoBoard.svg?branch=master)](https://travis-ci.org/joojaeyoon/DjangoBoard)
 
 [API Doc](api_doc.md)
