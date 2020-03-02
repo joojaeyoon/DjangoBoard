@@ -6,6 +6,9 @@ class Article(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.text[:10]+"..."
+
 
 class Comment(models.Model):
     article = models.ForeignKey(
@@ -13,3 +16,6 @@ class Comment(models.Model):
     author = models.CharField(max_length=16)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text[:10]+"..."

@@ -13,12 +13,14 @@ class TestArticle(APITestCase):
         Article.objects.create(author="test", text="test")
 
     def test_get_articles(self):
+        """ 글 리스트 테스트 """
         res = self.client.get(self.url)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
 
     def test_create_articles(self):
+        """ 글 작성 테스트 """
         payload = {
             "author": "testAuthor",
             "text": "testText"
