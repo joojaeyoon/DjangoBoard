@@ -1,0 +1,9 @@
+django
+psycopg2>=2.7.5,<2.8.0
+djangorestframework
+django-cors-headers
+django-rest-auth
+django-allauth
+Pillow
+whitenoise
+gunicorn
