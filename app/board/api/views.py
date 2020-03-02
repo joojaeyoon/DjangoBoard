@@ -2,14 +2,19 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 
 from board.models import Article, Comment
-from board.api.serializers import ArticleSerializer, CommentSerializer
+from board.api.serializers import ArticleListSerializer, ArticleDetailSerializer, CommentSerializer
 from board.api.pagination import ArticlePagination
 
 
 class ArticleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Article.objects.order_by("-created_at")
-    serializer_class = ArticleSerializer
+    serializer_class = ArticleListSerializer
     pagination_class = ArticlePagination
+
+
+class ArticleDetailAPIView(generics.RetrieveAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleDetailSerializer
 
 
 class CommentListAPIView(generics.ListAPIView):

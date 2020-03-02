@@ -52,7 +52,7 @@ GET /api/articles/
 ### 2. Article create
 
 ```
-POST /api/article/
+POST /api/articles/
 ```
 
 - 새 글을 추가할 수 있습니다.
@@ -61,6 +61,7 @@ POST /api/article/
 
 | Parameter | Types  | Description                 |
 | :-------- | :----- | :-------------------------- |
+| author    | string | (필수) 작성자의 이름        |
 | title     | string | (필수) 추가하려는 글의 제목 |
 | text      | string | (필수) 추가하려는 글의 내용 |
 
@@ -70,6 +71,7 @@ POST /api/article/
 
 {
     "id": 47,
+    "author": "User",
     "title": "New Article!!",
     "text": "New Text!!",
     "created_at": "2020-02-16T16:17:52.004901+09:00",
@@ -168,29 +170,5 @@ GET, PUT, PATCH, DELETE /api/comments/<comment_pk>/
     "created_at": "2020-02-16T16:19:12.188078+09:00",
     "updated_at": "2020-02-16T16:19:12.188101+09:00",
     "article": 47
-}
-```
-
-### 6. Profile detail
-
-```
-GET, PUT, PATCH /api/profiles/<profile_pk>/
-```
-
-- 특정 프로필을 조회, 수정, 삭제할 수 있습니다.
-
-##### Parameters
-
-| Parameter  | Types | Description                   |
-| :--------- | :---- | :---------------------------- |
-| profile_pk | int   | (필수) 조회하려는 프로필의 id |
-
-##### Response Body
-
-```
-{
-    "id": 3,
-    "user": "newuser",
-    "avatar": "http://localhost:8000/media/favicon.png"
 }
 ```
