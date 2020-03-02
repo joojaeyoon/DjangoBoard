@@ -25,7 +25,7 @@ class TestComment(APITestCase):
         self.assertEqual(len(res.data), 1)
 
     def test_create_comment(self):
-        """ 특정 글 댓글 생성 테스트 """
+        """ 댓글 생성 테스트 """
 
         payload = {
             "author": "testuser",
