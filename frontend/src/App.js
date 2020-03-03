@@ -1,18 +1,17 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Route from "./Routes";
 
 import styled from "styled-components";
 
-import ArticleList from "./Components/article/ArticleList";
-
 function App() {
   return (
-    <div>
+    <Router>
       <Menubar>
         <a>DjangoBoard</a>
       </Menubar>
-
-      <ArticleList />
-    </div>
+      <Route />
+    </Router>
   );
 }
 
