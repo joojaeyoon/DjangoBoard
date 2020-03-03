@@ -22,9 +22,11 @@ export const renderTimestamp = timestamp => {
 };
 
 const Article = ({ data, onClick }) => {
+  const title =
+    data.title.length > 50 ? data.title.slice(0, 50) + "..." : data.title;
   return (
     <ArticleLi onClick={onClick}>
-      <div>{data.title}</div>
+      <div>{title}</div>
       <div className="author">
         <span>{data.author}</span>
         <span className="time">{renderTimestamp(data.created_at)}</span>
