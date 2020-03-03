@@ -10,7 +10,9 @@ class TestArticle(APITestCase):
 
     def setUp(self):
         self.url = reverse("api:article-list")
-        self.article = Article.objects.create(author="test", text="test")
+        self.article = Article.objects.create(
+            author="test", title="test", text="test")
+        self.article2 = Article.objects.create(author="abcd", title="abc",)
 
     def test_get_articles(self):
         """ 글 리스트 테스트 """
@@ -19,7 +21,7 @@ class TestArticle(APITestCase):
         results = res.data["results"]
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(results), 1)
+        self.assertEqual(len(results), 2)
 
     def test_create_articles(self):
         """ 글 작성 테스트 """
@@ -57,3 +59,13 @@ class TestArticle(APITestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(res.data["text"])
         self.assertIsNotNone(res.data["comments"])
+
+    def test_search_article(self):
+
+        res = self.client.get(self.url, {
+            "search": "abc"
+        })
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data["count"], 1)
+        self.assertEqual(res.data["results"][0]["title"], "abc")

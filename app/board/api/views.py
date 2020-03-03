@@ -1,6 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 
+from rest_framework.filters import SearchFilter
+
 from board.models import Article, Comment
 from board.api.serializers import ArticleSerializer, ArticleListSerializer, ArticleDetailSerializer, CommentSerializer
 from board.api.pagination import ArticlePagination
@@ -10,6 +12,8 @@ class ArticleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Article.objects.order_by("-created_at")
     serializer_class = ArticleListSerializer
     pagination_class = ArticlePagination
+    filter_backends = [SearchFilter, ]
+    search_fields = ["title", ]
 
     def create(self, request, *args, **kwargs):
 
