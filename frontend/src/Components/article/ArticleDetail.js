@@ -121,9 +121,10 @@ const DetailDiv = styled.div`
   > .text {
     text-indent: 0px;
     padding: 30px;
-    min-height: 50%;
+    max-height: 50%;
     background: #ecf0f1;
     text-align: left;
+    overflow: scroll;
   }
 
   > form input {
