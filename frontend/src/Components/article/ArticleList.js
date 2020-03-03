@@ -60,6 +60,13 @@ const ArticleList = () => {
 
   return (
     <ListDiv>
+      <button
+        onClick={() => {
+          history.push("/post");
+        }}
+      >
+        Post!
+      </button>
       <ListUl>{articles}</ListUl>
       <PagesUl>{pages}</PagesUl>
       <ArticleDetail PanelRef={PanelRef} article_id={articleId} />
@@ -72,6 +79,26 @@ const ListDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  > button {
+    width: 200px;
+    height: 100px;
+    border-radius: 30px;
+    margin-top: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    background: #3498db;
+    border: none;
+    cursor: pointer;
+
+    :hover {
+      background: #2980b9;
+    }
+    :active {
+      transform: translateY(3px);
+    }
+  }
 `;
 
 const ListUl = styled.ul`

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import Route from "./Routes";
 
 import styled from "styled-components";
@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <Menubar>
-        <button>DjangoBoard</button>
+        <Link to="/board">DjangoBoard</Link>
       </Menubar>
       <Route />
     </Router>
@@ -22,14 +22,17 @@ const Menubar = styled.div`
   align-items: center;
   display: flex;
 
-  > button {
+  > a {
+    text-decoration: none;
     margin: 30px;
     font-size: 24px;
     font-weight: bold;
-    background: transparent;
-    border: none;
     color: white;
     cursor: pointer;
+
+    :active {
+      transform: translateY(3px);
+    }
   }
 `;
 

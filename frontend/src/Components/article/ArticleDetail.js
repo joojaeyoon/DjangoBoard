@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import Axios from "axios";
 
@@ -10,10 +10,19 @@ const ArticleDetail = ({ article_id, PanelRef }) => {
     comments: [],
     created_at: "0000-00-00T00:00:00.000000Z",
     id: null,
-    text: null,
+    text: "",
     title: null
   });
   const [refresh, setRefresh] = useState(0);
+
+  const text = data.text.split("\n").map((line, idx) => {
+    return (
+      <span key={idx}>
+        {line}
+        <br />
+      </span>
+    );
+  });
 
   const comments = data.comments.map(c => (
     <div key={c.id}>
@@ -51,6 +60,7 @@ const ArticleDetail = ({ article_id, PanelRef }) => {
       PanelRef.current.style.transform = "translateX(0%)";
       Axios.get(`http://localhost:8000/api/articles/${article_id}`).then(
         res => {
+          console.log(res.data);
           setData(res.data);
         }
       );
@@ -66,7 +76,7 @@ const ArticleDetail = ({ article_id, PanelRef }) => {
       <div className="info">
         <span>{data.author}</span> <span>{data.created_at.slice(0, 19)}</span>
       </div>
-      <div className="text">{data.text}</div>
+      <div className="text">{text}</div>
       <form onSubmit={handleSubmit}>
         <input type="text" name="username" placeholder="username" />
         <input type="text" name="text" placeholder="write comment..." />
@@ -112,8 +122,11 @@ const DetailDiv = styled.div`
   }
 
   > .text {
+    text-indent: 0px;
+    padding: 30px;
     min-height: 50%;
     background: #ecf0f1;
+    text-align: left;
   }
 
   > form input {
