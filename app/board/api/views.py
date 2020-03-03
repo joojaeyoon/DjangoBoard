@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 
 from board.models import Article, Comment
-from board.api.serializers import ArticleListSerializer, ArticleDetailSerializer, CommentSerializer
+from board.api.serializers import ArticleSerializer, ArticleListSerializer, ArticleDetailSerializer, CommentSerializer
 from board.api.pagination import ArticlePagination
 
 
@@ -10,6 +10,15 @@ class ArticleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Article.objects.order_by("-created_at")
     serializer_class = ArticleListSerializer
     pagination_class = ArticlePagination
+
+    def create(self, request, *args, **kwargs):
+
+        serializer = ArticleSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(request.data)
+
+        return Response(request.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class ArticleDetailAPIView(generics.RetrieveAPIView):
