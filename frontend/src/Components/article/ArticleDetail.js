@@ -38,13 +38,23 @@ const ArticleDetail = ({ article_id, PanelRef }) => {
     PanelRef.current.style.visibility = "hidden";
   };
 
+  useEffect(() => {
+    if (article_id !== null) {
+      PanelRef.current.style.transform = "translateX(0%)";
+      Axios.get(`/api/articles/${article_id}/`).then(res => {
+        console.log(res);
+        setData(res.data);
+      });
+    }
+  }, [article_id, refresh]);
+
   const handleSubmit = e => {
     e.preventDefault();
     const { username, text } = e.target;
 
     if (username.value === "" || text.value === "") return;
 
-    Axios.post(`http://localhost:8000/api/articles/${article_id}/comment/`, {
+    Axios.post(`/api/articles/${article_id}/comment/`, {
       author: username.value,
       text: text.value
     }).then(res => {
@@ -54,18 +64,6 @@ const ArticleDetail = ({ article_id, PanelRef }) => {
     username.value = "";
     text.value = "";
   };
-
-  useEffect(() => {
-    if (article_id !== null) {
-      PanelRef.current.style.transform = "translateX(0%)";
-      Axios.get(`http://localhost:8000/api/articles/${article_id}`).then(
-        res => {
-          console.log(res.data);
-          setData(res.data);
-        }
-      );
-    }
-  }, [article_id, refresh]);
 
   return (
     <DetailDiv ref={PanelRef}>

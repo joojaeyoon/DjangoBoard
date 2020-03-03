@@ -14,7 +14,7 @@ const Post = () => {
       return;
     }
 
-    Axios.post("http://localhost:8000/api/articles/", {
+    Axios.post("/api/articles/", {
       author: username.value,
       title: title.value,
       text: text.value

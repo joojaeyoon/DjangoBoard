@@ -21,7 +21,7 @@ const ArticleList = () => {
   const params = useParams();
 
   useEffect(() => {
-    Axios.get(`http://localhost:8000/api/articles/`, {
+    Axios.get(`/api/articles/`, {
       params: {
         page: params.page,
         search: params.search
