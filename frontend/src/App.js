@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <Menubar>
-        <a>DjangoBoard</a>
+        <button>DjangoBoard</button>
       </Menubar>
       <Route />
     </Router>
@@ -19,14 +19,17 @@ const Menubar = styled.div`
   background-color: #333;
   height: 60px;
   text-align: left;
-  color: white;
   align-items: center;
   display: flex;
 
-  > * {
+  > button {
     margin: 30px;
     font-size: 24px;
     font-weight: bold;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
   }
 `;
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Axios from "axios";
 
@@ -13,6 +13,9 @@ const ArticleList = () => {
     previous: null,
     results: []
   });
+  const [articleId, setArticleId] = useState(null);
+
+  const PanelRef = useRef();
 
   const history = useHistory();
   const params = useParams();
@@ -28,7 +31,14 @@ const ArticleList = () => {
   }, [params]);
 
   const articles = data.results.map(data => (
-    <Article key={data.id} data={data} onClick={() => {}} />
+    <Article
+      key={data.id}
+      data={data}
+      onClick={() => {
+        PanelRef.current.style.visibility = "visible";
+        setArticleId(data.id);
+      }}
+    />
   ));
 
   const totalPage = Math.floor(data.count / 15) + 1;
@@ -52,7 +62,7 @@ const ArticleList = () => {
     <ListDiv>
       <ListUl>{articles}</ListUl>
       <PagesUl>{pages}</PagesUl>
-      <ArticleDetail />
+      <ArticleDetail PanelRef={PanelRef} article_id={articleId} />
     </ListDiv>
   );
 };

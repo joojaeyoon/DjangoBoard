@@ -28,14 +28,12 @@ GET /api/articles/
             "author": "root",
             "title": "dd",
             "created_at": "2020-02-15T13:48:57.264294+09:00",
-            "updated_at": "2020-02-15T13:48:57.264315+09:00"
         },
         {
             "id": 27,
             "author": "root",
             "title": "ss",
             "created_at": "2020-02-15T13:48:40.461911+09:00",
-            "updated_at": "2020-02-15T13:48:40.461932+09:00"
         },
         ...
         {
@@ -43,7 +41,6 @@ GET /api/articles/
             "author": "root",
             "title": "ff",
             "created_at": "2020-02-15T13:48:17.016524+09:00",
-            "updated_at": "2020-02-15T13:48:17.016545+09:00"
         }
     ]
 }
@@ -75,18 +72,16 @@ POST /api/articles/
     "title": "New Article!!",
     "text": "New Text!!",
     "created_at": "2020-02-16T16:17:52.004901+09:00",
-    "updated_at": "2020-02-16T16:17:52.004924+09:00",
-    "author": 5
 }
 ```
 
 ### 3. Article detail
 
 ```
-GET, PUT, PATCH, DELETE /api/articles/<article_pk>/
+GET  /api/articles/<article_pk>/
 ```
 
-- 특정 글을 조회, 수정, 삭제할 수 있습니다.
+- 특정 글을 조회할 수 있습니다.
 - 특정 글의 댓글들을 함께 조회합니다.
 
 ##### Parameters
@@ -107,14 +102,12 @@ GET, PUT, PATCH, DELETE /api/articles/<article_pk>/
             "author": "root",
             "text": "new comment!",
             "created_at": "2020-02-16T16:19:12.188078+09:00",
-            "updated_at": "2020-02-16T16:19:12.188101+09:00",
             "article": 47
         }
     ],
     "title": "New Article!!",
     "text": "New Text!!",
     "created_at": "2020-02-16T16:17:52.004901+09:00",
-    "updated_at": "2020-02-16T16:17:52.004924+09:00"
 }
 ```
 
@@ -140,35 +133,7 @@ POST /api/articles/<article_pk>/comment/
     "id": 40,
     "text": "new comment!",
     "created_at": "2020-02-16T16:19:12.188078+09:00",
-    "updated_at": "2020-02-16T16:19:12.188101+09:00",
     "article": 47,
-    "author": 1
-}
-```
-
-### 5. Comment detail
-
-```
-GET, PUT, PATCH, DELETE /api/comments/<comment_pk>/
-```
-
-- 특정 댓글을 조회, 수정, 삭제할 수 있습니다.
-
-##### Parameters
-
-| Parameter  | Types | Description                 |
-| :--------- | :---- | :-------------------------- |
-| comment_pk | int   | (필수) 조회하려는 댓글의 id |
-
-##### Response Body
-
-```
-{
-    "id": 40,
-    "author": "root",
-    "text": "new comment!",
-    "created_at": "2020-02-16T16:19:12.188078+09:00",
-    "updated_at": "2020-02-16T16:19:12.188101+09:00",
-    "article": 47
+    "author": "test"
 }
 ```
