@@ -42,7 +42,6 @@ const ArticleDetail = ({ article_id, PanelRef }) => {
     if (article_id !== null) {
       PanelRef.current.style.transform = "translateX(0%)";
       Axios.get(`/api/articles/${article_id}/`).then(res => {
-        console.log(res);
         setData(res.data);
       });
     }
