@@ -23,12 +23,22 @@ const ArticleList = () => {
   useEffect(() => {
     Axios.get(`http://localhost:8000/api/articles/`, {
       params: {
-        page: params.id
+        page: params.page,
+        search: params.search
       }
     }).then(res => {
       setData(res.data);
     });
   }, [params]);
+
+  const handleSearch = e => {
+    e.preventDefault();
+    const searchText = e.target.search.value;
+
+    if (searchText === "") return;
+
+    history.push(`/board/search/${searchText}`);
+  };
 
   const articles = data.results.map(data => (
     <Article
@@ -50,7 +60,11 @@ const ArticleList = () => {
       <li
         key={i + 1}
         onClick={e => {
-          history.push(`/board/${e.target.innerText}`);
+          if (history.location.pathname.split("/")[2] === "search")
+            history.push(
+              `/board/search/${params.search}/${e.target.innerText}`
+            );
+          else history.push(`/board/${e.target.innerText}`);
         }}
       >
         {i + 1}
@@ -67,6 +81,10 @@ const ArticleList = () => {
       >
         Post!
       </button>
+      <form onSubmit={handleSearch}>
+        <input type="text" name="search" placeholder="Search.." />
+        <input type="submit" name="submit" value="Search" />
+      </form>
       <ListUl>{articles}</ListUl>
       <PagesUl>{pages}</PagesUl>
       <ArticleDetail PanelRef={PanelRef} article_id={articleId} />
@@ -97,6 +115,26 @@ const ListDiv = styled.div`
     }
     :active {
       transform: translateY(3px);
+    }
+  }
+
+  > form {
+    margin-top: 30px;
+
+    > input[type="text"] {
+      width: 300px;
+      height: 30px;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+    > input[type="submit"] {
+      height: 40px;
+      border-radius: 10px;
+      border: none;
+      background: #e74c3c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
     }
   }
 `;

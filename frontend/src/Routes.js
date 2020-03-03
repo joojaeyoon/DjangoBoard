@@ -6,9 +6,10 @@ import Post from "./Components/post/post";
 
 export default () => (
   <Switch>
-    {/* <Route path="/" component={} /> */}
     <Route exact path="/board" component={ArticleList} />
-    <Route exact path="/board/:id" component={ArticleList} />
+    <Route exact path="/board/:page" component={ArticleList} />
+    <Route exact path="/board/search/:search" component={ArticleList} />
+    <Route exact path="/board/search/:search/:page" component={ArticleList} />
     <Route exact path="/post" component={Post} />
   </Switch>
 );
