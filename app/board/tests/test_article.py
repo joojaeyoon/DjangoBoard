@@ -25,6 +25,7 @@ class TestArticle(APITestCase):
         """ 글 작성 테스트 """
         payload = {
             "author": "testAuthor",
+            "title": "testtitle",
             "text": "testText"
         }
 
