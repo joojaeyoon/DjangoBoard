@@ -1,10 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Axios from "axios";
 
 import Article from "./Article";
-import ArticleDetail from "./ArticleDetail";
 import { useHistory, useParams } from "react-router-dom";
+
+import { renderTimestamp } from "./Article";
+
+import {
+  MDBContainer,
+  MDBBtn,
+  MDBModal,
+  MDBModalBody,
+  MDBModalHeader,
+  MDBModalFooter
+} from "mdbreact";
 
 const ArticleList = () => {
   const [data, setData] = useState({
@@ -13,15 +23,23 @@ const ArticleList = () => {
     previous: null,
     results: []
   });
+  const [article, setArticle] = useState({
+    author: null,
+    comments: [],
+    created_at: "0000-00-00T00:00:00.000000Z",
+    id: null,
+    text: "",
+    title: null
+  });
   const [articleId, setArticleId] = useState(null);
-
-  const PanelRef = useRef();
+  const [modal, setModal] = useState(false);
+  const [refresh, setRefresh] = useState(0);
 
   const history = useHistory();
   const params = useParams();
 
   useEffect(() => {
-    Axios.get(`/api/articles/`, {
+    Axios.get(`http://15.164.20.194/api/articles/`, {
       params: {
         page: params.page,
         search: params.search
@@ -30,6 +48,33 @@ const ArticleList = () => {
       setData(res.data);
     });
   }, [params]);
+
+  useEffect(() => {
+    if (articleId === null) return;
+    Axios.get(`http://15.164.20.194/api/articles/${articleId}/`).then(res => {
+      setArticle(res.data);
+    });
+  }, [articleId, refresh]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const { username, text } = e.target;
+
+    if (username.value === "" || text.value === "") return;
+
+    Axios.post(`http://15.164.20.194/api/articles/${articleId}/comment/`, {
+      author: username.value,
+      text: text.value
+    });
+
+    username.value = "";
+    text.value = "";
+    setRefresh(refresh + 1);
+  };
+
+  const toggle = () => {
+    setModal(!modal);
+  };
 
   const handleSearch = e => {
     e.preventDefault();
@@ -40,13 +85,13 @@ const ArticleList = () => {
     history.push(`/board/search/${searchText}`);
   };
 
-  const articles = data.results.map(data => (
+  const articles = data.results.map(d => (
     <Article
-      key={data.id}
-      data={data}
+      key={d.id}
+      data={d}
       onClick={() => {
-        PanelRef.current.style.visibility = "visible";
-        setArticleId(data.id);
+        setModal(true);
+        setArticleId(d.id);
       }}
     />
   ));
@@ -72,6 +117,25 @@ const ArticleList = () => {
     );
   }
 
+  const text = article.text.split("\n").map((line, idx) => {
+    return (
+      <span key={idx}>
+        {line}
+        <br />
+      </span>
+    );
+  });
+
+  const comments = article.comments.map(c => (
+    <div key={c.id}>
+      <span>
+        {c.author + " : "}
+        {c.text}
+      </span>
+      <span>{renderTimestamp(c.created_at)}</span>
+    </div>
+  ));
+
   return (
     <ListDiv>
       <button
@@ -87,7 +151,39 @@ const ArticleList = () => {
       </form>
       <ListUl>{articles}</ListUl>
       <PagesUl>{pages}</PagesUl>
-      <ArticleDetail PanelRef={PanelRef} article_id={articleId} />
+      <MDBContainer>
+        <MDBModal
+          isOpen={modal}
+          toggle={toggle}
+          size="lg"
+          fullHeight
+          position="right"
+        >
+          <MDBModalHeader toggle={toggle} style={{ textAlign: "left" }}>
+            <div>{article.title}</div>
+            <div>
+              <span>{article.author}</span>{" "}
+              <span>{article.created_at.slice(0, 19)}</span>
+            </div>
+          </MDBModalHeader>
+          <MDBModalBody style={{ textAlign: "left" }}>
+            <DetailDiv>
+              <div className="text">{text}</div>
+              <form onSubmit={handleSubmit}>
+                <input type="text" name="username" placeholder="username" />
+                <input type="text" name="text" placeholder="write comment..." />
+                <input type="submit" name="submit" value="Submit" />
+              </form>
+              <div className="comment">{comments}</div>
+            </DetailDiv>
+          </MDBModalBody>
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={toggle}>
+              Close
+            </MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
+      </MDBContainer>
     </ListDiv>
   );
 };
@@ -159,6 +255,62 @@ const PagesUl = styled.ul`
     :hover {
       cursor: pointer;
       background-color: #34495e;
+    }
+  }
+`;
+
+const DetailDiv = styled.div`
+  background-color: white;
+  font-size: 24px;
+
+  > .info {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px #686868;
+  }
+
+  > .text {
+    text-indent: 0px;
+    padding: 30px;
+    max-height: 50%;
+  }
+
+  > form input {
+    background: #e6e6e6;
+    height: 30px;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #686868;
+    background: #e6e6e6;
+    border-radius: 5px;
+    margin: 10px;
+  }
+
+  > form input[name="username"] {
+    width: 100px;
+  }
+
+  > form input[name="text"] {
+    width: 500px;
+  }
+
+  > form input[type="submit"] {
+    height: 40px;
+    width: 80px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 10px;
+  }
+
+  > .comment {
+    text-align: left;
+
+    > div {
+      margin-top: 30px;
+      border-bottom: solid 1px #333;
+      font-size: 20px;
+      display: flex;
+      justify-content: space-between;
     }
   }
 `;

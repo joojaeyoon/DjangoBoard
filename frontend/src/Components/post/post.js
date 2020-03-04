@@ -23,22 +23,44 @@ const Post = () => {
   };
 
   return (
-    <div>
+    <PostDiv>
       <Form onSubmit={handlePost}>
         <p>
-          <input type="text" name="username" placeholder="username" />
-          <input type="text" name="title" placeholder="title" />
+          <input
+            type="text"
+            className="form-control"
+            name="username"
+            placeholder="username"
+          />
+          <input
+            type="text"
+            className="form-control"
+            name="title"
+            placeholder="title"
+          />
         </p>
         <p>
-          <textarea type="text" name="text" placeholder="write text..." />
+          <textarea
+            type="text"
+            name="text"
+            placeholder="write text..."
+            className="form-control"
+            id="exampleFormControlTextarea1"
+          />
         </p>
         <p>
           <input type="submit" name="submit" value="Post!" />
         </p>
       </Form>
-    </div>
+    </PostDiv>
   );
 };
+
+const PostDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+`;
 
 const Form = styled.form`
   > p {
