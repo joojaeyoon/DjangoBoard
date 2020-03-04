@@ -39,7 +39,7 @@ const ArticleList = () => {
   const params = useParams();
 
   useEffect(() => {
-    Axios.get(`http://15.164.20.194/api/articles/`, {
+    Axios.get(`/api/articles/`, {
       params: {
         page: params.page,
         search: params.search
@@ -51,7 +51,7 @@ const ArticleList = () => {
 
   useEffect(() => {
     if (articleId === null) return;
-    Axios.get(`http://15.164.20.194/api/articles/${articleId}/`).then(res => {
+    Axios.get(`/api/articles/${articleId}/`).then(res => {
       setArticle(res.data);
     });
   }, [articleId, refresh]);
@@ -62,7 +62,7 @@ const ArticleList = () => {
 
     if (username.value === "" || text.value === "") return;
 
-    Axios.post(`http://15.164.20.194/api/articles/${articleId}/comment/`, {
+    Axios.post(`/api/articles/${articleId}/comment/`, {
       author: username.value,
       text: text.value
     });
