@@ -2,9 +2,15 @@ import React from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Route from "./Routes";
 
+import Axios from "axios";
 import styled from "styled-components";
 
+import csrftoken from "./csrf_token";
+
 function App() {
+  Axios.defaults.headers = {
+    "X-CSRFTOKEN": csrftoken
+  };
   return (
     <Router>
       <Menubar>
