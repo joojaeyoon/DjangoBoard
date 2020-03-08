@@ -4,7 +4,7 @@
 
 [API Doc](api_doc.md)
 
-<a href="http://15.164.20.194/board">DjangoBoard Page</a>
+<a href="http://52.44.73.171/board">DjangoBoard Page</a>
 
 <img src="https://joojaeyoon.github.io/assets/board.png" width="400"/>
 
